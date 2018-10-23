@@ -25,6 +25,7 @@
                 android:textSize="12sp" />
             <!-- 此处放置PM2.5数值 -->
             <TextView
+                android:id="@+id/pm2.5_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
