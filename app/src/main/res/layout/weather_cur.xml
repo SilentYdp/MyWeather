@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="10dp">
+    //Padding（填充）属性定义元素边框与元素内容之间的空间
     <TextView
         android:id="@+id/city"
         android:layout_width="wrap_content"
@@ -15,6 +16,8 @@
         android:text="北京"
         android:textColor="@android:color/white"
         android:textSize="40sp" />
+    //android:layout_marginLeft:意思是距离左边框的距离
+    //singleLine="true"意思是设置单行显示
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
@@ -27,6 +30,9 @@
         android:text="今天12:00发布"
         android:textColor="@android:color/white"
         android:textSize="15sp" />
+    //android:layout_marginLeft:意思是距离左边框的距离
+    //singleLine="true"意思是设置单行显示
+    //layout_below="@id/city"意思是在某控件的下方
     <TextView
         android:id="@+id/humidity"
         android:layout_width="wrap_content"

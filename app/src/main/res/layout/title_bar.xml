@@ -5,12 +5,14 @@
     android:layout_height="45dp"
     android:background="#ffcd2626"
     android:gravity="center_vertical">
-
+    //这个是父布局
+    //gravity="center_vertical"的意思是指:限定它里面的内容要垂直居中显示
     <ImageView
         android:id="@+id/title_city_manager"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:src="@drawable/title_city"/>
+    //没有指定相对父布局的位置就默认从左到右分布，这里最好指定与父布局左边缘一致
     <ImageView
         android:id="@+id/city_seperator"
         android:layout_width="1dp"
@@ -18,6 +20,8 @@
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/title_city_manager"
         android:background="#A71717"/>
+    //用ImageView实现设置一根分割线
+    //layout_marginTop 指定该属性所在控件距上部最近控件的最小值
     <TextView
         android:id="@+id/title_city_name"
         android:layout_width="fill_parent"
@@ -28,12 +32,17 @@
         android:text="北京天气"
         android:textColor="#ffffffff"
         android:textSize="22sp" />
+    //paddingLeft 属性设置元素的左内边距。
+    //padding 属性定义元素边框与元素内容之间的空间
+    //这个的意思是指:限定它里面的内容要垂直居中显示,意思就是距离上下边缘的距离一致，在
+    布局的上下方向的正中间
     <ImageView
         android:id="@+id/title_update_btn"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/title_update"/>
+    //android:layout_alignParentRight="true"  --将控件的右边缘和父控件的右边缘对齐
     <ImageView
         android:id="@+id/title_share"
         android:layout_width="45dp"
@@ -46,6 +55,5 @@
         android:layout_height="45dp"
         android:layout_toLeftOf="@+id/title_share"
         android:src="@drawable/base_action_bar_action_city"/>
-
-
 </RelativeLayout>
+<!--在所有控件的最下面这一句话最后必须加上>

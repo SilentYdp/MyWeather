@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,12 +25,12 @@ import java.net.URL;
 import cn.edu.pku.yedepeng.bean.TodayWeather;
 import cn.edu.pku.yedepeng.util.NetUtil;
 
-public class MainActivity extends Activity implements View.OnClickListener
+public class MainActivity extends Activity //implements View.OnClickListener
+//一个类通过关键字implements声明自己使用一个或者多个接口
 {
     private static final int UPDATE_TODAY_WEATHER=1;
     private ImageView mUpdateBtn;
-    private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv, pmQualityTv,
-            temperatureTv, climateTv, windTv, city_name_Tv;
+    private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv, pmQualityTv,temperatureTv, climateTv, windTv, city_name_Tv;
     private ImageView weatherImg, pmImg;
     private  Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -47,11 +46,15 @@ public class MainActivity extends Activity implements View.OnClickListener
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.weather_info);
-
-        mUpdateBtn=(ImageView)findViewById(R.id.title_update_btn);//设置点击更新的图片就是出发按钮
-        mUpdateBtn.setOnClickListener(this);
+//   一个窗口创建（Create）之后，会向操作系统发送WM_CREATE消息，OnCreate()函数主要是用来响应此消息的。
+//   OnCreate()不产生窗口，只是在窗口显示前设置窗口的属性如风格、位置等
+//  1、public：public表明该数据成员、成员函数是对所有用户开放的，所有用户都可以直接进行调用
+//  2、private：private表示私有，私有的意思就是除了class自己之外，任何人都不可以直接使用，即便是子女，朋友，都不可以使用。
+//  3、protected：protected对于子女、朋友来说，就是public的，可以自由使用，没有任何限制，而对于其他的外部class，protected就变成private。
+        super.onCreate(savedInstanceState);//八股
+        setContentView(R.layout.weather_info);//八股，最后的参数就是窗口的详细布局
+       mUpdateBtn=(ImageView)findViewById(R.id.title_update_btn);//设置点击更新的图片就是出发按钮
+       mUpdateBtn.setOnClickListener(this);
         if(NetUtil.getNeworkState(this)!=NetUtil.NETWORK_NONE){
             Log.d("myWeather","网络ok");
             Toast.makeText(MainActivity.this,"网络ok！",Toast.LENGTH_LONG).show();
@@ -59,7 +62,8 @@ public class MainActivity extends Activity implements View.OnClickListener
             Log.d("myWeather","网络未连接");
             Toast.makeText(MainActivity.this,"网络未连接",Toast.LENGTH_LONG).show();
         }
-        initView();
+
+      initView();
     }
     void initView(){
         city_name_Tv = (TextView) findViewById(R.id.title_city_name);
@@ -85,6 +89,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         climateTv.setText("N/A");
         windTv.setText("N/A");
     }
+
     public void onClick(View view) {
         if (view.getId() == R.id.title_update_btn) {//按钮触发的就是更新图片
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -187,84 +192,6 @@ public class MainActivity extends Activity implements View.OnClickListener
         return todayWeather;
     }
 
-    /*private void parseXML(String xmldata) {
-        int fengxiangCount=0;
-        int fengliCount =0;
-        int dateCount=0;
-        int highCount =0;
-        int lowCount=0;
-        int typeCount =0;
-        try{
-            XmlPullParserFactory fac = XmlPullParserFactory.newInstance();
-            XmlPullParser xmlPullParser = fac.newPullParser();
-            xmlPullParser.setInput(new StringReader(xmldata));
-            int eventType = xmlPullParser.getEventType();
-            Log.d("myWeather", "parseXML");
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                switch (eventType) {
-                    // 判断当前事件是否为文档开始事件
-                    case XmlPullParser.START_DOCUMENT:
-                        break;
-                    // 判断当前事件是否为标签元素开始事件
-                    case XmlPullParser.START_TAG:
-                        if (xmlPullParser.getName().equals("city ")) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "city: " + xmlPullParser.getText());
-                        } else if (xmlPullParser.getName().equals("updatetime")) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "updatetime: " + xmlPullParser.getText());
-                        } else if (xmlPullParser.getName().equals("shidu")) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "shidu: " + xmlPullParser.getText());
-                        } else if (xmlPullParser.getName().equals("wendu")) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "wendu: " + xmlPullParser.getText());
-                        } else if (xmlPullParser.getName().equals("pm25")) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "pm25: " + xmlPullParser.getText());
-                        } else if (xmlPullParser.getName().equals("quality")) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "quality: " + xmlPullParser.getText());
-                        } else if (xmlPullParser.getName().equals("fengxiang") && fengxiangCount == 0) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "fengxiang: " + xmlPullParser.getText());
-                            fengxiangCount++;
-                        } else if (xmlPullParser.getName().equals("fengli") && fengliCount == 0) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "fengli: " + xmlPullParser.getText());
-                            fengliCount++;
-                        } else if (xmlPullParser.getName().equals("date") && dateCount == 0) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "date: " + xmlPullParser.getText());
-                            dateCount++;
-                        } else if (xmlPullParser.getName().equals("high") && highCount == 0) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "high: " + xmlPullParser.getText());
-                            highCount++;
-                        } else if (xmlPullParser.getName().equals("low") && lowCount == 0) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "low: " + xmlPullParser.getText());
-                            lowCount++;
-                        } else if (xmlPullParser.getName().equals("type") && typeCount == 0) {
-                            eventType = xmlPullParser.next();
-                            Log.d("myWeather", "type: " + xmlPullParser.getText());
-                            typeCount++;
-                        }
-                        break;
-                    // 判断当前事件是否为标签元素结束事件
-                    case XmlPullParser.END_TAG:
-                        break;
-                }
-                    // 进入下一个元素并触发相应事件
-                    eventType = xmlPullParser.next();
-                        }
-                }catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     private void queryWeatherCode(final String cityCode){
         final String address="http://wthrcdn.etouch.cn/WeatherApi?citykey="+cityCode;
         Log.d("myWeather",address);
@@ -275,31 +202,28 @@ public class MainActivity extends Activity implements View.OnClickListener
                 HttpURLConnection con=null;
                 TodayWeather todayWeather=null;
                 try{
-                    Log.d("myWeather","test4");
+
                     URL url=new URL(address);
                     con=(HttpURLConnection)url.openConnection();
                     con.setRequestMethod("GET");
-                    Log.d("myWeather","test6");
                     con.setConnectTimeout(8000);
-                    Log.d("myWeather","test7");
                     con.setReadTimeout(8000);
-                    Log.d("myWeather","test8");
                     InputStream in=con.getInputStream();
-                    Log.d("myWeather","test5");
+
                     BufferedReader reader=new BufferedReader(new InputStreamReader(in));
                     StringBuilder response=new StringBuilder();
-                    Log.d("myWeather","test1");
                     String str;
                     while ((str=reader.readLine())!=null){
                         response.append(str);
                         Log.d("myWeather",str);
                     }
                     String responseStr=response.toString();
-                    Log.d("myWeather","test2");
+                    //toString()将任何对象转换成字符串表达形式
+
                     Log.d("myWeather",responseStr);
                     todayWeather=parseXML(responseStr);
                     if(todayWeather!=null){
-                        Log.d("myWeather",todayWeather.toString());
+                        Log.d("myWeather",todayWeather.toString()+"test1");
                         Message msg =new Message();
                         msg.what = UPDATE_TODAY_WEATHER;
                         msg.obj=todayWeather;

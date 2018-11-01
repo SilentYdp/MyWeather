@@ -5,6 +5,7 @@
     android:layout_alignParentRight="true"
     android:layout_alignParentTop="true"
     android:orientation="vertical">
+    //android：orientation="vertical"；意思是布局方式为垂直布局
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
                 android:text="220"
                 android:textColor="@android:color/white"
                 android:textSize="30sp" />
-        </LinearLayout>
+        </LinearLayout>//这一层线性布局是pm2.5和其数值这两个文本控件的垂直分布
         <ImageView
             android:id="@+id/pm2.5_img"
             android:layout_width="wrap_content"
@@ -40,9 +41,7 @@
             android:layout_marginLeft="5dp"
             android:src="@drawable/biz_plugin_weather_0_50"
             />
-
-    </LinearLayout>
-
+    </LinearLayout>//这一层线性布局是上述两个文本控件合起来的布局与pm2.5图片控件的水平分布
     <TextView
         android:id="@+id/pm2.5_quality"
         android:layout_width="fill_parent"
@@ -52,5 +51,4 @@
         android:text="重度污染"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
-
-</LinearLayout>
+</LinearLayout><!--这最外层的线性布局是上面两个布局与“重度污染”这个文本控件是垂直分布>
