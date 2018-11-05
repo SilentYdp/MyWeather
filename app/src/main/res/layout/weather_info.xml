@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 头两句话八股，默认充满整个父布局，即整个屏幕-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,6 +6,16 @@
     <include
         android:id="@+id/title"
         layout="@layout/title_bar"/>
+//***************************************************************************
+    <ProgressBar
+        android:id="@+id/progress_large"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:progress="20"
+        android:max="100"
+        android:visibility="gone" />
+//****************************************************************************
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -23,13 +32,20 @@
             <include
                 android:id="@+id/weather_current"
                 layout="@layout/weather_cur"/>
-            <!-- 此处放置今日PM2.5天气信息 -->
+            <!-- 此处放置PM2.5天气信息 -->
             <include layout="@layout/weather_pm25"/>
+
             <!-- 此处放置今日天气概况信息 -->
             <include layout="@layout/weather_today"/>
+
+
         </RelativeLayout>
+
         <!-- 此处放置未来七日天气信息 -->
-        <!-- 此处放置其他信息 -->
+
+        <!-- 此处放置其他信息，如广告等 -->
+
+
 
     </LinearLayout>
 
